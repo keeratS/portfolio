@@ -1,1 +1,89 @@
-Hello World.
+<html>
+
+<head>
+	<title>My First Webpage</title>
+		 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+
+		h1{
+			color: #F18F01;
+			text-align:center;
+			margin-top:100px;
+		}
+
+		body{
+			background-color: #BCF8EC;
+			font-family: Didot,"Didot LT STD","Hoefler Text",Garamond,"Times New Roman",serif
+		}
+
+		textarea{
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			margin-top:40px;
+			border: none;
+			width: 200px;
+		}
+
+		button{
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			margin-top: 40px;
+			width: 250px;
+			height: 30px;
+			color: white;
+			background-color: #F18F01 ;
+			border: none;
+			border-radius: 4px;
+		}
+	</style>
+
+</head>
+
+
+
+
+<body>
+
+
+	<h1>
+		<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+		Compliments?
+		<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+	</h1>
+
+	<textarea placeholder = "Type a compliment"></textarea>
+
+	<button>
+		Send Compliment
+
+		<span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+	</button>
+
+</body>
+
+<script>
+	//initialize firebase
+	myFirebaseRef = new Firebase("https://compliment-maker.firebaseio.com/");
+	myFirebaseRef.remove(); //clears firebase when page loaded
+	myFirebaseRef.on('child_added', onMessage);
+
+	$('button').click(whenClicked); // $ same as jQuery
+
+	function whenClicked(){
+		var text;
+		text = $('textarea').val(); 
+		myFirebaseRef.push(text);
+		$('textarea').val('Thank You!');
+	}
+
+	function onMessage(message){
+		$('h1').text(message.val());
+	}
+</script>
+
+
+</html>
